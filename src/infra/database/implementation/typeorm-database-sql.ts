@@ -19,32 +19,30 @@ export class TypeORMDataBaseSQL implements IDatabase {
     InstallmentModel
   ]
 
-  constructor () {}
+  connectDB = async (): Promise<void> => {
+    await createConnection({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'password',
+      database: 'nexoos_challenge',
+      entities: this.entities,
+      synchronize: false,
+      logging: false,
+      cache: {
+        duration: 100000 // 1 min
+      }
+    })
 
-    connectDB = async (): Promise<void> => {
-      await createConnection({
-        type: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'root',
-        password: 'password',
-        database: 'nexoos_challenge',
-        entities: this.entities,
-        synchronize: false,
-        logging: false,
-        cache: {
-          duration: 100000 // 1 min
-        }
-      })
+    console.log('Successfully connected to Database')
+  }
 
-      console.log('Successfully connected to Database')
-    }
+  disconnectDB = async (comTransaction = false): Promise<void> => {
+    if (comTransaction) await this.queryRunnerForTransaction.rollbackTransaction()
 
-    disconnectDB = async (comTransaction = false): Promise<void> => {
-      if (comTransaction) await this.queryRunnerForTransaction.rollbackTransaction()
+    await this.queryRunnerForTransaction.release()
 
-      await this.queryRunnerForTransaction.release()
-
-      await getConnection().close()
-    }
+    await getConnection().close()
+  }
 }

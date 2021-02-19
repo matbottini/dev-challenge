@@ -1,24 +1,24 @@
 import { Request, Response } from 'express'
-import { FormattedInstallment } from '../../interfaces-enuns/interfaces-enuns'
+import { FormattedInstallment } from '../../interfaces-enuns/interface'
 import { IMakeLoanRequestDTO } from './make-loan.dto'
 import { MakeLoanUseCase } from './make-loan.use-case'
 
 export class MakeLoanController {
-    constructor(
+  constructor (
         private makeLoanUseCase: MakeLoanUseCase
-    ) {}
+  ) {}
 
-    async handle (request: Request, response: Response): Promise<Response> {
-        try {
-            const requestData: IMakeLoanRequestDTO = request.body
+  async handle (request: Request, response: Response): Promise<Response> {
+    try {
+      const requestData: IMakeLoanRequestDTO = request.body
 
-            const result: FormattedInstallment[] = await this.makeLoanUseCase.execute(requestData)
+      const result: FormattedInstallment[] = await this.makeLoanUseCase.execute(requestData)
 
-            return response.status(200).json({ error: false, result: result })
-        } catch (error) {
-            return response.status(400).json({
-                message: `Error - ${error.message}` || 'Unexpected Error in Make Loan Request UseCase'
-            })
-        }
+      return response.status(200).json({ error: false, result: result })
+    } catch (error) {
+      return response.status(400).json({
+        message: `Error - ${error.message}` || 'Unexpected Error in Make Loan Request UseCase'
+      })
     }
+  }
 }

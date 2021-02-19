@@ -1,4 +1,4 @@
-import { LoanModel } from "../models/loan.model";
+import { LoanModel } from '../models/loan.model'
 
 export interface ILoanRepository {
     save(loan: LoanModel): Promise<LoanModel>

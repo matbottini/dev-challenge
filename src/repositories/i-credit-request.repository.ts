@@ -1,4 +1,4 @@
-import { CreditRequestModel } from "../models/credit-request.model";
+import { CreditRequestModel } from '../models/credit-request.model'
 
 export interface ICreditRequestRepository {
     save(creditRequest: CreditRequestModel): Promise<CreditRequestModel>

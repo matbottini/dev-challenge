@@ -3,7 +3,6 @@ import { CompanyTelephoneModel } from '../../models/company-telephone.model'
 import { ICompanyTelephoneRepository } from '../i-company-telephone.repository'
 
 export class CompanyTelephoneRepository implements ICompanyTelephoneRepository {
-  
   async save (companyTelephone: CompanyTelephoneModel, repository = getRepository(CompanyTelephoneModel)): Promise<CompanyTelephoneModel> {
     const savedCompanyTelephone = await repository.save(companyTelephone)
     return savedCompanyTelephone
@@ -18,8 +17,7 @@ export class CompanyTelephoneRepository implements ICompanyTelephoneRepository {
 
   async update (companyTelephone: Partial<CompanyTelephoneModel>, repository = getRepository(CompanyTelephoneModel)): Promise<CompanyTelephoneModel> {
     const updatedCompanyTelephone = await repository.save(companyTelephone)
-    
+
     return updatedCompanyTelephone
   }
-
 }

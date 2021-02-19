@@ -1,4 +1,4 @@
-import { CompanyAddressModel } from "../models/company-address.model";
+import { CompanyAddressModel } from '../models/company-address.model'
 
 export interface ICompanyAddressRepository {
     save(company: CompanyAddressModel): Promise<CompanyAddressModel>

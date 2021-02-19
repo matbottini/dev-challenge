@@ -1,6 +1,6 @@
-import { CompanyAddressModel } from "../models/company-address.model";
-import { CompanyTelephoneModel } from "../models/company-telephone.model";
-import { CompanyModel } from "../models/company.model";
+import { CompanyAddressModel } from '../models/company-address.model'
+import { CompanyTelephoneModel } from '../models/company-telephone.model'
+import { CompanyModel } from '../models/company.model'
 
 export interface CompanyWithAddressAndTelephone {
     company: CompanyModel
@@ -21,15 +21,4 @@ export interface FormattedInstallment {
     installmentId: string
     dueDate: string
     status: string
-}
-
-export enum StatusLoan {
-    APPROVED = 'approved',
-    DISAPPROVED = 'disapproved',
-    PENDING = 'pending'
-}
-
-export enum StatusInstallment {
-    PAIDOUT = 'paidout',
-    PENDING = 'pending'
 }

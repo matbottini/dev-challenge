@@ -3,7 +3,6 @@ import { CompanyModel } from '../../models/company.model'
 import { ICompanyRepository } from '../i-company.repository'
 
 export class CompanyRepository implements ICompanyRepository {
-  
   async save (company: CompanyModel, repository = getRepository(CompanyModel)): Promise<CompanyModel> {
     const savedCompany = await repository.save(company)
     return savedCompany
@@ -18,8 +17,7 @@ export class CompanyRepository implements ICompanyRepository {
 
   async update (company: Partial<CompanyModel>, repository = getRepository(CompanyModel)): Promise<CompanyModel> {
     const updatedCompany = await repository.save(company)
-    
+
     return updatedCompany
   }
-
 }

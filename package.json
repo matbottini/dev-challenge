@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/app.ts",
     "lint": "eslint src/** --ext .ts --fix",
     "test": "npm run test:unidade",

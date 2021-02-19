@@ -1,22 +1,20 @@
 import express from 'express'
 import { router } from './routes'
 import cors, { CorsOptions } from 'cors'
-import Helmet from 'helmet'
 import { TypeORMDataBaseSQL } from './infra/database/implementation/typeorm-database-sql'
 
 const corsOptions: CorsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With'],
   credentials: true,
-  methods: ['GET', 'POST', 'OPTIONS', 'PATCH'],
+  methods: ['GET', 'POST', 'OPTIONS', 'PATCH'], // TODO: Testar remover o 'OPTIONS'
   origin: '*'
 }
 
-const app: express.Application = express() // Responsável por permitir que este back receba requisições
+const app: express.Application = express()
 
-app.use(express.json()) // Responsável por permitir o acesso do req.body nas requests
-app.use(cors(corsOptions)) // Responsável por configurar as autorizações para acessar as rotas
+app.use(express.json())
+app.use(cors(corsOptions))
 app.use(router)
-app.use(Helmet()) // O que é isso exatamente??
 
 app.listen(8082, () => { console.log('Listening on ' + 8082) })
 
@@ -24,11 +22,8 @@ async function initialize () {
   const database = new TypeORMDataBaseSQL()
 
   await database.connectDB()
-
 }
 
 initialize()
 
-// TODO: Adicionar gitignore e lint e configs de TS
-
-// TODO: Criar um teste de unidade para cada useCase ; Incluir error service ; Incluir Docker para o BD
+// TODO: Criar um teste de unidade para cada useCase ; Incluir error service ; Incluir Docker para o BD ; Criar documentação ; Criar env.example ; Utilizar os process.env no SQL implementation ; adicioanr logger service

@@ -1,5 +1,5 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
-import { StatusInstallment } from '../interfaces-enuns/interfaces-enuns'
+import { StatusInstallment } from '../interfaces-enuns/enum'
 import { LoanModel } from './loan.model'
 
 @Entity('installment')
@@ -17,7 +17,7 @@ export class InstallmentModel {
 
     @Column({ type: 'date' })
     dueDate: Date
-  
+
     @Column({ type: 'date', nullable: true })
     payday?: Date | null
 

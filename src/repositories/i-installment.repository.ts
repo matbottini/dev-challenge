@@ -1,4 +1,4 @@
-import { InstallmentModel } from "../models/installment.model";
+import { InstallmentModel } from '../models/installment.model'
 
 export interface IInstallmentRepository {
     save(installment: InstallmentModel): Promise<InstallmentModel>

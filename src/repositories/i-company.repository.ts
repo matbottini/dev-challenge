@@ -1,4 +1,4 @@
-import { CompanyModel } from "../models/company.model";
+import { CompanyModel } from '../models/company.model'
 
 export interface ICompanyRepository {
     save(company: CompanyModel): Promise<CompanyModel>
