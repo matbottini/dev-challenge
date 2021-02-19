@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
-import { CompanyWithAddressAndTelephone } from '../../interfaces-enuns/interface'
+import { CommonError } from '../../services/errors/common-error'
+import { CompanyWithAddressAndTelephone } from '../../services/utils/interface'
 import { ICreateCompanyRequestDTO } from './create-company.dto'
 import { CreateCompanyUseCase } from './create-company.use-case'
 
@@ -16,8 +17,13 @@ export class CreateCompanyController {
 
       return response.status(200).json({ error: false, result: result })
     } catch (error) {
+      if (error instanceof CommonError) {
+        return response.status(error.statusCode).json({
+          message: error.message
+        })  
+      }
       return response.status(400).json({
-        message: `Error - ${error.message}` || 'Unexpected Error in Create Company UseCase'
+        message: 'Unexpected Error in Create Company UseCase'
       })
     }
   }

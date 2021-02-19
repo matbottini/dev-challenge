@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
-import { FormattedInstallment } from '../../interfaces-enuns/interface'
+import { CommonError } from '../../services/errors/common-error'
+import { FormattedInstallment } from '../../services/utils/interface'
 import { IMakeLoanRequestDTO } from './make-loan.dto'
 import { MakeLoanUseCase } from './make-loan.use-case'
 
@@ -16,8 +17,13 @@ export class MakeLoanController {
 
       return response.status(200).json({ error: false, result: result })
     } catch (error) {
+      if (error instanceof CommonError) {
+        return response.status(error.statusCode).json({
+          message: error.message
+        })  
+      }
       return response.status(400).json({
-        message: `Error - ${error.message}` || 'Unexpected Error in Make Loan Request UseCase'
+        message: 'Unexpected Error in Make Loan UseCase'
       })
     }
   }
