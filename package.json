@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/app.ts",
+    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/app.ts -r dotenv/config",
     "lint": "eslint src/** --ext .ts --fix",
     "test": "npm run test:unidade",
     "list-migration": "ts-node node_modules/typeorm/cli.js migration:generate -n Migration",
@@ -14,8 +14,10 @@
   "author": "matbottini",
   "license": "ISC",
   "dependencies": {
+    "celebrate": "^13.0.4",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^4.3.1",
     "moment": "^2.29.1",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/cors": "^2.8.9",
+    "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.11",
     "@types/mocha": "^8.2.0",
     "@types/mysql": "^2.15.17",

@@ -1,9 +1,8 @@
-import { StatusLoan } from '../../interfaces-enuns/enum'
-import { FormattedLoan } from '../../interfaces-enuns/interface'
+import { StatusLoan } from '../../services/utils/enum'
+import { FormattedLoan } from '../../services/utils/interface'
 import { LoanModel } from '../../models/loan.model'
 import { CreditRequestRepository } from '../../repositories/implementations/credit-request.repository'
 import { LoanRepository } from '../../repositories/implementations/loan.repository'
-import { ILoanOfferRequestDTO } from './loan-offer.dto'
 
 export class LoanOfferUseCase {
   constructor (
@@ -11,8 +10,8 @@ export class LoanOfferUseCase {
         private creditRequestRepository: CreditRequestRepository
   ) {}
 
-  async execute (data: ILoanOfferRequestDTO): Promise<FormattedLoan> {
-    const creditRequest = await this.creditRequestRepository.findOne(data.creditRequestId)
+  async execute (creditRequestId: string): Promise<FormattedLoan> {
+    const creditRequest = await this.creditRequestRepository.findOne(creditRequestId)
 
     const numberOfInstallments = (creditRequest.value >= 15000 && creditRequest.value <= 250000) ? 12 : 24
 

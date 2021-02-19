@@ -1,5 +1,5 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
-import { StatusLoan } from '../interfaces-enuns/enum'
+import { StatusLoan } from '../services/utils/enum'
 import { CompanyModel } from './company.model'
 import { CreditRequestModel } from './credit-request.model'
 

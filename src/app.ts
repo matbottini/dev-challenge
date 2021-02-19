@@ -1,12 +1,16 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import express from 'express'
 import { router } from './routes'
 import cors, { CorsOptions } from 'cors'
-import { TypeORMDataBaseSQL } from './infra/database/implementation/typeorm-database-sql'
+import { TypeORMDataBaseSQL } from './services/infra/database/implementation/typeorm-database-sql'
+import { errors as celebrateErrors } from 'celebrate'
 
 const corsOptions: CorsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With'],
   credentials: true,
-  methods: ['GET', 'POST', 'OPTIONS', 'PATCH'], // TODO: Testar remover o 'OPTIONS'
+  methods: ['GET', 'POST', 'PATCH'],
   origin: '*'
 }
 
@@ -15,8 +19,9 @@ const app: express.Application = express()
 app.use(express.json())
 app.use(cors(corsOptions))
 app.use(router)
+app.use(celebrateErrors())
 
-app.listen(8082, () => { console.log('Listening on ' + 8082) })
+app.listen(process.env.PORT, () => { console.log('Listening on ' + process.env.PORT) })
 
 async function initialize () {
   const database = new TypeORMDataBaseSQL()
@@ -26,4 +31,4 @@ async function initialize () {
 
 initialize()
 
-// TODO: Criar um teste de unidade para cada useCase ; Incluir error service ; Incluir Docker para o BD ; Criar documentação ; Criar env.example ; Utilizar os process.env no SQL implementation ; adicioanr logger service
+// TODO: Adicionar status no creditRequest e criar msg do retorno avisand oque foi aprovado ; Criar um teste de unidade para cada useCase ; Incluir Docker para o BD ; Criar documentação ;

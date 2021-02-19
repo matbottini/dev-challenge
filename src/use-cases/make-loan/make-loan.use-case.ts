@@ -3,8 +3,8 @@ import { InstallmentRepository } from '../../repositories/implementations/instal
 import { LoanRepository } from '../../repositories/implementations/loan.repository'
 import { IMakeLoanRequestDTO } from './make-loan.dto'
 import moment from 'moment'
-import { FormattedInstallment } from '../../interfaces-enuns/interface'
-import { StatusInstallment, StatusLoan } from '../../interfaces-enuns/enum'
+import { FormattedInstallment } from '../../services/utils/interface'
+import { StatusInstallment, StatusLoan } from '../../services/utils/enum'
 
 export class MakeLoanUseCase {
   constructor (

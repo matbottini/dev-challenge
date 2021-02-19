@@ -1,6 +1,7 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn, Index } from 'typeorm'
 
 @Entity('company')
+@Index('UNIQUE', ['cnpj'], { unique: true })
 
 export class CompanyModel {
     @PrimaryGeneratedColumn('uuid')
@@ -9,7 +10,7 @@ export class CompanyModel {
     @Column('varchar', { length: 100 })
     companyName: string
 
-    @Column('varchar', { length: 40 })
+    @Column('varchar', { length: 18 })
     cnpj: string
 
     @CreateDateColumn({

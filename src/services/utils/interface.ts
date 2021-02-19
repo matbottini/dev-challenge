@@ -1,6 +1,6 @@
-import { CompanyAddressModel } from '../models/company-address.model'
-import { CompanyTelephoneModel } from '../models/company-telephone.model'
-import { CompanyModel } from '../models/company.model'
+import { CompanyAddressModel } from '../../models/company-address.model'
+import { CompanyTelephoneModel } from '../../models/company-telephone.model'
+import { CompanyModel } from '../../models/company.model'
 
 export interface CompanyWithAddressAndTelephone {
     company: CompanyModel

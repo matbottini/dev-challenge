@@ -1,4 +1,4 @@
-import { CompanyWithAddressAndTelephone } from '../../interfaces-enuns/interface'
+import { CompanyWithAddressAndTelephone } from '../../services/utils/interface'
 import { CompanyAddressModel } from '../../models/company-address.model'
 import { CompanyTelephoneModel } from '../../models/company-telephone.model'
 import { CompanyModel } from '../../models/company.model'

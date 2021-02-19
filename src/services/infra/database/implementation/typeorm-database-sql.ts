@@ -1,10 +1,13 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import { createConnection, getConnection, QueryRunner } from 'typeorm'
-import { CompanyAddressModel } from '../../../models/company-address.model'
-import { CompanyTelephoneModel } from '../../../models/company-telephone.model'
-import { CompanyModel } from '../../../models/company.model'
-import { CreditRequestModel } from '../../../models/credit-request.model'
-import { InstallmentModel } from '../../../models/installment.model'
-import { LoanModel } from '../../../models/loan.model'
+import { CompanyAddressModel } from '../../../../models/company-address.model'
+import { CompanyTelephoneModel } from '../../../../models/company-telephone.model'
+import { CompanyModel } from '../../../../models/company.model'
+import { CreditRequestModel } from '../../../../models/credit-request.model'
+import { InstallmentModel } from '../../../../models/installment.model'
+import { LoanModel } from '../../../../models/loan.model'
 import { IDatabase } from '../i-database'
 
 export class TypeORMDataBaseSQL implements IDatabase {
@@ -22,11 +25,11 @@ export class TypeORMDataBaseSQL implements IDatabase {
   connectDB = async (): Promise<void> => {
     await createConnection({
       type: 'mysql',
-      host: 'localhost',
+      host: process.env.TYPEORM_HOST,
       port: 3306,
-      username: 'root',
-      password: 'password',
-      database: 'nexoos_challenge',
+      username: process.env.TYPEORM_USERNAME,
+      password: process.env.TYPEORM_PASSWORD,
+      database: process.env.TYPEORM_DATABASE,
       entities: this.entities,
       synchronize: false,
       logging: false,

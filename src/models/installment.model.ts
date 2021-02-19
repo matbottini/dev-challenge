@@ -1,5 +1,5 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
-import { StatusInstallment } from '../interfaces-enuns/enum'
+import { StatusInstallment } from '../services/utils/enum'
 import { LoanModel } from './loan.model'
 
 @Entity('installment')
