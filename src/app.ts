@@ -30,5 +30,3 @@ async function initialize () {
 }
 
 initialize()
-
-// TODO: Criar um teste de unidade para cada useCase ; Criar documentação ;
