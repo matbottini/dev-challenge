@@ -8,8 +8,8 @@ export class InstallmentRepository implements IInstallmentRepository {
     return savedInstallment
   }
 
-  async findOne (installmentId: string, repository = getRepository(InstallmentModel)): Promise<InstallmentModel> {
-    const installment = await repository.findOneOrFail({
+  async findOne (installmentId: string, repository = getRepository(InstallmentModel)): Promise<InstallmentModel | undefined> {
+    const installment = await repository.findOne({
       where: { installmentId: installmentId }
     })
     return installment

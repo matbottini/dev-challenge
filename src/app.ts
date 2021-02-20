@@ -1,11 +1,11 @@
 import dotenv from 'dotenv'
-dotenv.config()
 
 import express from 'express'
 import { router } from './routes'
 import cors, { CorsOptions } from 'cors'
 import { TypeORMDataBaseSQL } from './services/infra/database/implementation/typeorm-database-sql'
 import { errors as celebrateErrors } from 'celebrate'
+dotenv.config()
 
 const corsOptions: CorsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With'],
@@ -31,4 +31,4 @@ async function initialize () {
 
 initialize()
 
-// TODO: Adicionar status no creditRequest e criar msg do retorno avisand oque foi aprovado ; Criar um teste de unidade para cada useCase ; Incluir Docker para o BD ; Criar documentação ;
+// TODO: Criar um teste de unidade para cada useCase ; Criar documentação ;

@@ -1,4 +1,5 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { StatusCreditRequest } from '../services/utils/enum'
 import { CompanyModel } from './company.model'
 
 @Entity('credit_request')
@@ -16,6 +17,9 @@ export class CreditRequestModel {
 
     @Column('float', { precision: 8, scale: 2 })
     value: number
+
+    @Column('varchar', { length: 30 })
+    status: StatusCreditRequest
 
     @CreateDateColumn({
       type: 'timestamp'

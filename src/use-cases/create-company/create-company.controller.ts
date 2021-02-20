@@ -15,15 +15,18 @@ export class CreateCompanyController {
 
       const result: CompanyWithAddressAndTelephone = await this.createCompanyUseCase.execute(requestData)
 
-      return response.status(200).json({ error: false, result: result })
+      return response.status(200).json({
+        error: false,
+        result: result
+      })
     } catch (error) {
       if (error instanceof CommonError) {
         return response.status(error.statusCode).json({
           message: error.message
-        })  
+        })
       }
       return response.status(400).json({
-        message: 'Unexpected Error in Create Company UseCase'
+        message: 'Unexpected Error in Create Credit UseCase'
       })
     }
   }

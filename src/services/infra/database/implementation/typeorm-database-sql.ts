@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-dotenv.config()
 
 import { createConnection, getConnection, QueryRunner } from 'typeorm'
 import { CompanyAddressModel } from '../../../../models/company-address.model'
@@ -9,6 +8,7 @@ import { CreditRequestModel } from '../../../../models/credit-request.model'
 import { InstallmentModel } from '../../../../models/installment.model'
 import { LoanModel } from '../../../../models/loan.model'
 import { IDatabase } from '../i-database'
+dotenv.config()
 
 export class TypeORMDataBaseSQL implements IDatabase {
   private queryRunnerForTransaction: QueryRunner

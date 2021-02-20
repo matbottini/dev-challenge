@@ -3,6 +3,7 @@ import { FormattedLoan } from '../../services/utils/interface'
 import { LoanModel } from '../../models/loan.model'
 import { CreditRequestRepository } from '../../repositories/implementations/credit-request.repository'
 import { LoanRepository } from '../../repositories/implementations/loan.repository'
+import { CommonError } from '../../services/errors/common-error'
 
 export class LoanOfferUseCase {
   constructor (
@@ -12,6 +13,12 @@ export class LoanOfferUseCase {
 
   async execute (creditRequestId: string): Promise<FormattedLoan> {
     const creditRequest = await this.creditRequestRepository.findOne(creditRequestId)
+
+    if (!creditRequest) { throw new CommonError('Sorry but we did not find this credit request in our system') }
+
+    const loanExist = await this.loanRepository.findOneByCreditRequestId(creditRequest.creditRequestId as string)
+
+    if (loanExist) { throw new CommonError('Sorry but we already have a loan offer for this credit request') }
 
     const numberOfInstallments = (creditRequest.value >= 15000 && creditRequest.value <= 250000) ? 12 : 24
 
@@ -23,10 +30,10 @@ export class LoanOfferUseCase {
 
     const loan: LoanModel = {
       creditRequestId: creditRequest.creditRequestId as string,
-      finalValue: finalValue,
+      finalValue: parseFloat(finalValue.toFixed(2)),
       interestRate: interestRate,
       numberOfInstallments: numberOfInstallments,
-      installmentValue: installmentValue,
+      installmentValue: parseFloat(installmentValue.toFixed(2)),
       status: StatusLoan.PENDING
     }
 

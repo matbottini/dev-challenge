@@ -1,100 +1,125 @@
-// import { expect } from 'chai'
-// import sinon from 'sinon'
+import chai, { expect } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+import sinon from 'sinon'
+import { CompanyAddressRepository } from '../../repositories/implementations/company-address.repository'
+import { CompanyTelephoneRepository } from '../../repositories/implementations/company-telephone.repository'
+import { CompanyRepository } from '../../repositories/implementations/company.repository'
+import { CommonError } from '../../services/errors/common-error'
+import { CompanyWithAddressAndTelephone } from '../../services/utils/interface'
+import { CreateCompanyUseCase } from '../../use-cases/create-company/create-company.use-case'
+import { createCompanyRequestDTO, createCompanyUseCaseResult, savedCompany, savedCompanyAddress, savedCompanyTelephone } from '../support/data/create-company-use-case.data'
 
-// describe('Unity | create new Company', async () => {
-//   let typeormClientPfRepository: TypeormClientPFRepository
+chai.use(chaiAsPromised)
 
-//   let fakeSaveClientPfRepository: sinon.SinonStub // Quando eu pegava a tipagem pelo VSCode dava erro
+describe('Unity | create new Company UseCase', async () => {
+  let companyRepository: CompanyRepository
+  let companyAddressRepository: CompanyAddressRepository
+  let companyTelephoneRepository: CompanyTelephoneRepository
 
-//   before(() => {
-//     typeormClientPfRepository = new TypeormClientPFRepository()
+  let fakeSaveCompanyRepository: sinon.SinonStub
+  let fakeFindOneByCnpjCompanyRepository: sinon.SinonStub
+  let fakeSaveCompanyAddressRepository: sinon.SinonStub
+  let fakeSaveCompanyTelephoneRepository: sinon.SinonStub
 
-//     fakeSaveClientPfRepository = sinon.stub(typeormClientPfRepository, 'save')
-//   })
+  before(() => {
+    companyRepository = new CompanyRepository()
+    companyAddressRepository = new CompanyAddressRepository()
+    companyTelephoneRepository = new CompanyTelephoneRepository()
 
-//   it('Quando um cliente novo é salvo devo retornar seu ID', async () => {
-//     const clientPfToSave: ClientPf = {
-//       clientPfId: 'xxxxxxxxxxxxxxxxxxxx',
-//       name: 'Lord Valdemort',
-//       motherName: 'ValdeMãe Silva',
-//       nationality: 'ENG',
-//       cpf: '40969953801',
-//       rg: '3233232',
-//       gender: 'M',
-//       maritalStatus: 'Solteiro',
-//       birthState: 'SP',
-//       birthDate: new Date(),
-//       scholarity: 'ensino fundamental',
-//       profession: 'Mestre das trevas',
-//       address: 'Alameda Jau',
-//       number: 687,
-//       complement: 'apt 32',
-//       cep: '01419-001',
-//       neighborhood: 'Hogwarts',
-//       city: 'São Paulo',
-//       state: 'SP',
-//       email: 'lordVoldemort@gmail.com',
-//       telephone: '1211212121',
-//       commercialPhone: '323232323',
-//       cellphone: '323232323',
-//       status: 'Ativo'
-//     }
+    fakeSaveCompanyRepository = sinon.stub(companyRepository, 'save')
+    fakeFindOneByCnpjCompanyRepository = sinon.stub(companyRepository, 'findOneByCnpj')
+    fakeSaveCompanyAddressRepository = sinon.stub(companyAddressRepository, 'save')
+    fakeSaveCompanyTelephoneRepository = sinon.stub(companyTelephoneRepository, 'save')
+  })
 
-//     const creatClientPfUseCase = new CreateClientPfUseCase(
-//       typeormClientPfRepository
-//     )
+  it('When a new company is registered I must return all registration data', async () => {
+    const creatCompanyUseCase = new CreateCompanyUseCase(
+      companyRepository,
+      companyAddressRepository,
+      companyTelephoneRepository
+    )
 
-//     fakeSaveClientPfRepository.resolves(
-//       clientPfToSave
-//     )
+    fakeFindOneByCnpjCompanyRepository.resolves(
+      undefined
+    )
 
-//     const result = await creatClientPfUseCase.execute(clientPfToSave)
+    fakeSaveCompanyRepository.resolves(
+      savedCompany
+    )
 
-//     expect(result).to.be.eql({ insertId: clientPfToSave.clientPfId })
-//   })
+    fakeSaveCompanyAddressRepository.resolves(
+      savedCompanyAddress
+    )
 
-//   it('Quando um cliente novo é salvo devo chamar o método save()', async () => {
-//     const clientPfToSave: ClientPf = {
-//       clientPfId: 'xxxxxxxxxxxxxxxxxxxx',
-//       name: 'Lord Valdemort',
-//       motherName: 'ValdeMãe Silva',
-//       nationality: 'ENG',
-//       cpf: '40969953801',
-//       rg: '3233232',
-//       gender: 'M',
-//       maritalStatus: 'Solteiro',
-//       birthState: 'SP',
-//       birthDate: new Date(),
-//       scholarity: 'ensino fundamental',
-//       profession: 'Mestre das trevas',
-//       address: 'Alameda Jau',
-//       number: 687,
-//       complement: 'apt 32',
-//       cep: '01419-001',
-//       neighborhood: 'Hogwarts',
-//       city: 'São Paulo',
-//       state: 'SP',
-//       email: 'lordVoldemort@gmail.com',
-//       telephone: '1211212121',
-//       commercialPhone: '323232323',
-//       cellphone: '323232323',
-//       status: 'Ativo'
-//     }
+    fakeSaveCompanyTelephoneRepository.resolves(
+      savedCompanyTelephone
+    )
 
-//     const creatClientPfUseCase = new CreateClientPfUseCase(
-//       typeormClientPfRepository
-//     )
+    const result: CompanyWithAddressAndTelephone = await creatCompanyUseCase.execute(createCompanyRequestDTO)
 
-//     fakeSaveClientPfRepository.resolves(
-//       clientPfToSave
-//     )
+    expect(result).to.be.eql(createCompanyUseCaseResult)
+  })
 
-//     await creatClientPfUseCase.execute(clientPfToSave)
+  it('When a company that is already registered tries to register again I must throw error', async () => {
+    const creatCompanyUseCase = new CreateCompanyUseCase(
+      companyRepository,
+      companyAddressRepository,
+      companyTelephoneRepository
+    )
 
-//     expect(fakeSaveClientPfRepository.called).to.be.true
-//   })
+    fakeFindOneByCnpjCompanyRepository.resolves(
+      savedCompany
+    )
 
-//   after(() => {
-//     fakeSaveClientPfRepository.restore()
-//   })
-// })
+    fakeSaveCompanyRepository.resolves(
+      savedCompany
+    )
+
+    fakeSaveCompanyAddressRepository.resolves(
+      savedCompanyAddress
+    )
+
+    fakeSaveCompanyTelephoneRepository.resolves(
+      savedCompanyTelephone
+    )
+
+    await expect(creatCompanyUseCase.execute(createCompanyRequestDTO)).to.be.rejectedWith(CommonError, 'Sorry but this cnpj is already registered in our system')
+  })
+
+  it('When a new company is registered I must call the save() method of all Repositories and the findOneByCnpj() method by companyRepository', async () => {
+    const creatCompanyUseCase = new CreateCompanyUseCase(
+      companyRepository,
+      companyAddressRepository,
+      companyTelephoneRepository
+    )
+
+    fakeFindOneByCnpjCompanyRepository.resolves(
+      undefined
+    )
+
+    fakeSaveCompanyRepository.resolves(
+      savedCompany
+    )
+
+    fakeSaveCompanyAddressRepository.resolves(
+      savedCompanyAddress
+    )
+
+    fakeSaveCompanyTelephoneRepository.resolves(
+      savedCompanyTelephone
+    )
+
+    await creatCompanyUseCase.execute(createCompanyRequestDTO)
+
+    expect(fakeFindOneByCnpjCompanyRepository.called).to.be.true
+    expect(fakeSaveCompanyRepository.called).to.be.true
+    expect(fakeSaveCompanyAddressRepository.called).to.be.true
+    expect(fakeSaveCompanyTelephoneRepository.called).to.be.true
+  })
+
+  after(() => {
+    fakeSaveCompanyRepository.restore()
+    fakeSaveCompanyAddressRepository.restore()
+    fakeSaveCompanyTelephoneRepository.restore()
+  })
+})

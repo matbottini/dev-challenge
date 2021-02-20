@@ -8,9 +8,16 @@ export class CompanyRepository implements ICompanyRepository {
     return savedCompany
   }
 
-  async findOne (companyId: string, repository = getRepository(CompanyModel)): Promise<CompanyModel> {
-    const company = await repository.findOneOrFail({
+  async findOneById (companyId: string, repository = getRepository(CompanyModel)): Promise<CompanyModel | undefined> {
+    const company = await repository.findOne({
       where: { companyId: companyId }
+    })
+    return company
+  }
+
+  async findOneByCnpj (cnpj: string, repository = getRepository(CompanyModel)): Promise<CompanyModel | undefined> {
+    const company = await repository.findOne({
+      where: { cnpj: cnpj }
     })
     return company
   }

@@ -10,7 +10,7 @@ export class CompanyModel {
     @Column('varchar', { length: 100 })
     companyName: string
 
-    @Column('varchar', { length: 18 })
+    @Column('varchar', { length: 14 })
     cnpj: string
 
     @CreateDateColumn({

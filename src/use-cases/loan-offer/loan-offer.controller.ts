@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { CommonError } from '../../services/errors/common-error'
 import { FormattedLoan } from '../../services/utils/interface'
-import { ILoanOfferRequestDTO } from './loan-offer.dto'
 import { LoanOfferUseCase } from './loan-offer.use-case'
 
 export class LoanOfferController {
@@ -20,7 +19,7 @@ export class LoanOfferController {
       if (error instanceof CommonError) {
         return response.status(error.statusCode).json({
           message: error.message
-        })  
+        })
       }
       return response.status(400).json({
         message: 'Unexpected Error in Loan Offer UseCase'

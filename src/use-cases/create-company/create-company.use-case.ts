@@ -6,6 +6,7 @@ import { CompanyAddressRepository } from '../../repositories/implementations/com
 import { CompanyTelephoneRepository } from '../../repositories/implementations/company-telephone.repository'
 import { CompanyRepository } from '../../repositories/implementations/company.repository'
 import { ICreateCompanyRequestDTO } from './create-company.dto'
+import { CommonError } from '../../services/errors/common-error'
 
 export class CreateCompanyUseCase {
   constructor (
@@ -19,6 +20,9 @@ export class CreateCompanyUseCase {
       companyName: data.companyName,
       cnpj: data.cnpj
     }
+
+    const companyExist = await this.companyRepository.findOneByCnpj(data.cnpj)
+    if (companyExist) { throw new CommonError('Sorry but this cnpj is already registered in our system') }
 
     const savedCompany = await this.companyRepository.save(company)
 

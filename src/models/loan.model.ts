@@ -1,4 +1,4 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, VersionColumn, PrimaryGeneratedColumn, JoinColumn, OneToOne } from 'typeorm'
 import { StatusLoan } from '../services/utils/enum'
 import { CompanyModel } from './company.model'
 import { CreditRequestModel } from './credit-request.model'
@@ -12,11 +12,11 @@ export class LoanModel {
     @Column('varchar', { length: 36 })
     creditRequestId: string
 
-    @ManyToOne(() => CreditRequestModel, creditRequest => creditRequest.creditRequestId, { nullable: false, onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
+    @OneToOne(() => CreditRequestModel, creditRequest => creditRequest.creditRequestId, { nullable: false, onDelete: 'NO ACTION', onUpdate: 'NO ACTION' })
     @JoinColumn({ name: 'creditRequestId', referencedColumnName: 'creditRequestId' })
     creditRequest?: CompanyModel
 
-    @Column('float', { precision: 8, scale: 2 })
+    @Column('float', { precision: 16, scale: 2 })
     finalValue: number
 
     @Column('float', { precision: 8, scale: 2 })
@@ -25,7 +25,7 @@ export class LoanModel {
     @Column('int', { width: 3 })
     numberOfInstallments: number
 
-    @Column('float', { precision: 8, scale: 2 })
+    @Column('float', { precision: 16, scale: 2 })
     installmentValue: number
 
     @Column('varchar', { length: 30 })

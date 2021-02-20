@@ -8,8 +8,8 @@ export class CompanyAddressRepository implements ICompanyAddressRepository {
     return savedCompanyAddress
   }
 
-  async findOne (companyAddressId: string, repository = getRepository(CompanyAddressModel)): Promise<CompanyAddressModel> {
-    const companyAddress = await repository.findOneOrFail({
+  async findOne (companyAddressId: string, repository = getRepository(CompanyAddressModel)): Promise<CompanyAddressModel | undefined> {
+    const companyAddress = await repository.findOne({
       where: { companyAddressId: companyAddressId }
     })
     return companyAddress

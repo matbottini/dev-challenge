@@ -8,8 +8,8 @@ export class CreditRequestRepository implements ICreditRequestRepository {
     return savedCreditRequest
   }
 
-  async findOne (creditRequestId: string, repository = getRepository(CreditRequestModel)): Promise<CreditRequestModel> {
-    const creditRequest = await repository.findOneOrFail({
+  async findOne (creditRequestId: string, repository = getRepository(CreditRequestModel)): Promise<CreditRequestModel | undefined> {
+    const creditRequest = await repository.findOne({
       where: { creditRequestId: creditRequestId }
     })
     return creditRequest

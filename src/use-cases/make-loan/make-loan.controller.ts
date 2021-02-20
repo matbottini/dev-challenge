@@ -20,7 +20,7 @@ export class MakeLoanController {
       if (error instanceof CommonError) {
         return response.status(error.statusCode).json({
           message: error.message
-        })  
+        })
       }
       return response.status(400).json({
         message: 'Unexpected Error in Make Loan UseCase'

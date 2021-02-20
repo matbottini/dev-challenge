@@ -5,6 +5,7 @@ import { IMakeLoanRequestDTO } from './make-loan.dto'
 import moment from 'moment'
 import { FormattedInstallment } from '../../services/utils/interface'
 import { StatusInstallment, StatusLoan } from '../../services/utils/enum'
+import { CommonError } from '../../services/errors/common-error'
 
 export class MakeLoanUseCase {
   constructor (
@@ -13,7 +14,9 @@ export class MakeLoanUseCase {
   ) {}
 
   async execute (data: IMakeLoanRequestDTO): Promise<FormattedInstallment[]> {
-    const loan = await this.loanRepository.findOne(data.loanId)
+    const loan = await this.loanRepository.findOneById(data.loanId)
+
+    if (!loan) { throw new CommonError('Sorry but we did not find this loan offer in our system') }
 
     const formattedInstallmentArray: FormattedInstallment[] = []
 

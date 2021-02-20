@@ -8,9 +8,16 @@ export class LoanRepository implements ILoanRepository {
     return savedLoan
   }
 
-  async findOne (loanId: string, repository = getRepository(LoanModel)): Promise<LoanModel> {
-    const loan = await repository.findOneOrFail({
+  async findOneById (loanId: string, repository = getRepository(LoanModel)): Promise<LoanModel | undefined> {
+    const loan = await repository.findOne({
       where: { loanId: loanId }
+    })
+    return loan
+  }
+
+  async findOneByCreditRequestId (creditRequestId: string, repository = getRepository(LoanModel)): Promise<LoanModel | undefined> {
+    const loan = await repository.findOne({
+      where: { creditRequestId: creditRequestId }
     })
     return loan
   }

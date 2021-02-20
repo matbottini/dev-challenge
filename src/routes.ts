@@ -1,5 +1,5 @@
 import express from 'express'
-import { celebrate, Joi, Segments } from 'celebrate'
+import { celebrate, Segments } from 'celebrate'
 import { createCompanyController } from './use-cases/create-company'
 import { createCreditRequestController } from './use-cases/create-credit-request'
 import { loanOfferController } from './use-cases/loan-offer'
@@ -12,11 +12,11 @@ import { LoanOfferSchema } from './use-cases/loan-offer/loan-offer.schema'
 const router = express.Router()
 
 router.post('/v1/create-company',
-celebrate({
-  [Segments.BODY]: createCompanySchema
-}), (request, response) => {
-  return createCompanyController.handle(request, response)
-})
+  celebrate({
+    [Segments.BODY]: createCompanySchema
+  }), (request, response) => {
+    return createCompanyController.handle(request, response)
+  })
 
 router.post('/v1/create-credit-request', celebrate({
   [Segments.BODY]: createCreditRequestSchema
